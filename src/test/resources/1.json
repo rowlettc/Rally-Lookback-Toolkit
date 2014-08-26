@@ -1,0 +1,50 @@
+{
+    "_rallyAPIMajor": "2",
+    "_rallyAPIMinor": "0",
+    "Errors": [],
+    "Warnings": [],
+    "ThreadStats": {
+        "cpuTime": "10.0",
+        "waitTime": "0",
+        "blockedTime": "0",
+        "waitCount": "0",
+        "blockedCount": "0"
+    },
+    "Timings": {
+        "preProcess": 0,
+        "findEtlDate": 7,
+        "allowedValuesDisambiguation": 1,
+        "mongoQuery": 23,
+        "authorization": 0,
+        "formattedId": 0,
+        "suppressNonRequested": 0,
+        "allowedValuesHydration": 0,
+        "compressSnapshots": 0,
+        "TOTAL": 31
+    },
+    "GeneratedQuery": {
+        "find": {
+            "ObjectID": 777,
+            "_ValidFrom": {
+                "$lte": "2014-08-20T18:29:22.379Z"
+            }
+        },
+        "limit": 100,
+        "skip": 0,
+        "fields": {
+            "_id": 1,
+            "ObjectID": 1,
+            "_ValidFrom": 1,
+            "_ValidTo": 1,
+            "Project": 1
+        }
+    },
+    "TotalResultCount": 2,
+    "StartIndex": 0,
+    "PageSize": 100,
+    "ETLDate": "2014-08-20T18:29:22.379Z",
+    "Results": [
+        {"ObjectID":5.387234184E9,"Project":2.79050021E8,"_ValidFrom":"2012-02-08T14:42:14.147Z","_ValidTo":"2012-02-09T19:16:26.890Z","_id":"53e110d3e4b03369a36c47e1"},
+        {"ObjectID":4.9413018E9,"Project":2.79050021E8,"_ValidFrom":"2012-02-08T14:13:16.509Z","_ValidTo":"2012-02-08T14:13:20.022Z","_id":"53e110d3e4b03369a36c47c1"}
+     ]
+}

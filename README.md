@@ -2,7 +2,7 @@
 
 This toolkit provides an interface for interacting with Rally's Lookback API. Documentation for Rally's Lookback API can be found [here](https://rally1.rallydev.com/analytics/doc)
 
-Maven support coming soon. To use this toolkit in your project, download the jar [here](https://github.com/ericlifka/Rally-Lookback-Toolkit/blob/master/out/artifacts/lbapi_rest_toolkit_jar/lbapi-rest-toolkit.jar?raw=true) and add it to your project. All dependencies are included.
+Maven Central Repository support coming soon. To use this toolkit in your project, clone the repository and run ```mvn package```. The .jar will be built in the target/ directory and all dependencies will be located in the target/dependency directory.
 
 To get started, create an instance of LookbackApi and configure it with your Rally credentials and workspace information:
 
@@ -83,6 +83,28 @@ Due to the chained nature of the api, one off queries can be made all in one go:
                     .getResultsIterator();
 
 One quirk in dealing with Rally data from Java is dealing with OIDs, which are integers, but mcuh larger than Java's max size for integers. The BigInteger class as illustrated in the above example is an easy way to work around this issue.
+
+## Configuring a Proxy Server ##
+
+The following example uses a proxy server with basic authentication.
+
+    LookbackApi api = new LookbackApi()
+                .setProxyServer("http://myproxy:8080")
+                .setProxyCredentials(proxyuser, proxypass)
+                ...
+
+## Advanced Configuration of the HTTP Client ##
+
+```LookbackApi``` exposes a constructor that allows you to inject your own HttpClient instance fully configured however you would like.  The following example shows the same proxy setup as above but through explicit HttpClient configuration.
+
+        DefaultHttpClient c = new DefaultHttpClient();
+        c.getCredentialsProvider().setCredentials(new AuthScope(proxyHost, listeningPort()), new UsernamePasswordCredentials(proxyuser, proxypass));
+        c.getCredentialsProvider().setCredentials(new AuthScope(serverHost, serverPort), new UsernamePasswordCredentials(username, password));
+        c.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, new HttpHost(proxyHost, listeningPort()));
+
+        LookbackApi a = new LookbackApi(c)
+                .setServer("http://" + serverHost)
+                .setWorkspace(workspace);
 
 
 ## MIT License ##
