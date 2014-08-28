@@ -10,7 +10,7 @@
 
     <groupId>com.rallydev.analytics.lookback</groupId>
     <artifactId>rally-lookback-toolkit</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Rally Lookback Toolkit</name>
     <description>
