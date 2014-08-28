@@ -2,7 +2,13 @@
 
 This toolkit provides an interface for interacting with Rally's Lookback API. Documentation for Rally's Lookback API can be found [here](https://rally1.rallydev.com/analytics/doc)
 
-Maven Central Repository support coming soon. To use this toolkit in your project, clone the repository and run ```mvn package```. The .jar will be built in the target/ directory and all dependencies will be located in the target/dependency directory.
+Maven Central Repository support is now here - [http://search.maven.org]( http://search.maven.org/#search%7Cga%7C1%7Clookback ) .  Just include the following in your pom (for Maven projects) -
+
+    <dependency>
+        <groupId>com.rallydev.analytics.lookback</groupId>
+        <artifactId>rally-lookback-toolkit</artifactId>
+        <version>1.0.0</version>
+    </dependency>
 
 To get started, create an instance of LookbackApi and configure it with your Rally credentials and workspace information:
 
