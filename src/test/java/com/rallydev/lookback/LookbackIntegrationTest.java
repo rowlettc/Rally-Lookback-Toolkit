@@ -1,5 +1,13 @@
 package com.rallydev.lookback;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -9,14 +17,6 @@ import org.simpleframework.http.Response;
 import org.simpleframework.http.core.Container;
 import org.simpleframework.http.core.ContainerServer;
 import org.simpleframework.transport.connect.SocketConnection;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
 
 public class LookbackIntegrationTest {
 
@@ -129,7 +129,7 @@ public class LookbackIntegrationTest {
         try {
             InputStream is = getClass().getResource("/1.json").openStream();
             Assert.assertNotNull(is);
-            json = IOUtils.toString(is);
+            json = IOUtils.toString(is, "UTF-8");
         } catch (Exception e) {
             Assert.fail(e.getMessage());
         }

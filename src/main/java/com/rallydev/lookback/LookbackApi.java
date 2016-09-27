@@ -1,11 +1,12 @@
 package com.rallydev.lookback;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.apache.commons.codec.binary.Base64;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
@@ -16,13 +17,10 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.CoreProtocolPNames;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 
 /**
  * LookbackApi objects provide an API for communicating with Rally's Lookback API service.
@@ -58,7 +56,6 @@ public class LookbackApi {
     public LookbackApi() {
         this(new DefaultHttpClient());
         Runnable shutdown = new Runnable() {
-            @Override
             public void run() {
                 client.getConnectionManager().shutdown();
             }
@@ -235,15 +232,21 @@ public class LookbackApi {
 
     private HttpResponse executeRequest(String requestJson) throws IOException {
         HttpUriRequest request = createRequest(requestJson);
-
         applyCredentials();
         return client.execute(request);
     }
 
     private LookbackResult buildLookbackResult(HttpResponse response) throws IOException {
         HttpEntity responseBody = validateResponse(response);
-        String json = getResponseJson(responseBody);
-        return serializeLookbackResultFromJson(json);
+        JsonReader reader = new JsonReader(new InputStreamReader(responseBody.getContent(), "UTF-8"));
+        LookbackResult resultFromJson = null;
+        try {
+            resultFromJson = serializeLookbackResultFromJson(reader);
+        } finally {
+            reader.close();
+        }
+        
+        return resultFromJson;
     }
 
     private HttpUriRequest createRequest(String requestJson) throws IOException {
@@ -263,18 +266,9 @@ public class LookbackApi {
         return responseBody;
     }
 
-    private String getResponseJson(HttpEntity responseBody) throws IOException {
-        InputStream responseStream = responseBody.getContent();
-        try {
-            return readFromStream(responseStream);
-        } finally {
-            responseStream.close();
-        }
-    }
-
-    private LookbackResult serializeLookbackResultFromJson(String json) {
+    private LookbackResult serializeLookbackResultFromJson(JsonReader reader) {
         Gson serializer = new GsonBuilder().serializeNulls().create();
-        return serializer.fromJson(json, LookbackResult.class);
+        return serializer.fromJson(reader, LookbackResult.class);
     }
 
     private boolean authorizationFailed(HttpResponse response) {
@@ -289,16 +283,6 @@ public class LookbackApi {
         return String.format(
                 "%s/analytics/%s/service/rally/workspace/%s/artifact/snapshot/query.js",
                 serverUrl.toExternalForm(), buildApiVersion(), workspace);
-    }
-
-    private String readFromStream(InputStream stream) {
-        Scanner scanner = new Scanner(stream);
-        scanner.useDelimiter("\\A");
-        if (scanner.hasNext()) {
-            return scanner.next();
-        } else {
-            return "";
-        }
     }
 
     private String buildApiVersion() {

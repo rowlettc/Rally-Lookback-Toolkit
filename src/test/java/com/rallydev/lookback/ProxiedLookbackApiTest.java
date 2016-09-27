@@ -1,5 +1,8 @@
 package com.rallydev.lookback;
 
+import java.io.InputStream;
+import java.util.Stack;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -9,9 +12,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Assert;
 import org.junit.Test;
 import org.simpleframework.http.core.Container;
-
-import java.io.InputStream;
-import java.util.Stack;
 
 public class ProxiedLookbackApiTest extends LookbackIntegrationTest {
 
@@ -53,6 +53,8 @@ public class ProxiedLookbackApiTest extends LookbackIntegrationTest {
                 .execute();
 
         Assert.assertEquals("there should be 2 results", 2, result.Results.size());
+        Assert.assertEquals("Kæmi ný öxi hér ykist þjófum nú bæði víl og ádrepa", result.Results.get(0).get("Name"));
+
     }
 
 
@@ -74,6 +76,7 @@ public class ProxiedLookbackApiTest extends LookbackIntegrationTest {
         ret = capturesRequest(ret);
         ret = respondWith(ret, 407);
         ret = addsHeader(ret, "Proxy-Authenticate", "Basic realm=\"theproxy\"");
+        ret = addsHeader(ret, "Content-Type", "application/json; charset=UTF-8");
         return ret;
     }
 
@@ -91,6 +94,7 @@ public class ProxiedLookbackApiTest extends LookbackIntegrationTest {
         ret = capturesRequest(ret);
         ret = assertsHeader(ret, "Proxy-Authorization", "Basic dGVzdDpwYXNz");
         ret = assertsHeader(ret, "Authorization", "Basic dGVzdDE6cGFzczE=");
+        ret = addsHeader(ret, "Content-Type", "application/json; charset=UTF-8");
         return ret;
     }
 
@@ -99,6 +103,7 @@ public class ProxiedLookbackApiTest extends LookbackIntegrationTest {
         ret = capturesRequest(ret);
         ret = assertsHeader(ret, "Proxy-Authorization", "Basic dGVzdDpwYXNz");
         ret = addsHeader(ret, "WWW-Authenticate", "Basic realm=\"myRealm\"");
+        ret = addsHeader(ret, "Content-Type", "application/json; charset=UTF-8");
         ret = respondWith(ret, 401);
         return ret;
     }

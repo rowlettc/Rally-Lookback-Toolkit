@@ -44,7 +44,7 @@
     "PageSize": 100,
     "ETLDate": "2014-08-20T18:29:22.379Z",
     "Results": [
-        {"ObjectID":5.387234184E9,"Project":2.79050021E8,"_ValidFrom":"2012-02-08T14:42:14.147Z","_ValidTo":"2012-02-09T19:16:26.890Z","_id":"53e110d3e4b03369a36c47e1"},
-        {"ObjectID":4.9413018E9,"Project":2.79050021E8,"_ValidFrom":"2012-02-08T14:13:16.509Z","_ValidTo":"2012-02-08T14:13:20.022Z","_id":"53e110d3e4b03369a36c47c1"}
+        {"ObjectID":5.387234184E9,"Name":"Kæmi ný öxi hér ykist þjófum nú bæði víl og ádrepa","Project":2.79050021E8,"_ValidFrom":"2012-02-08T14:42:14.147Z","_ValidTo":"2012-02-09T19:16:26.890Z","_id":"53e110d3e4b03369a36c47e1"},
+        {"ObjectID":4.9413018E9,"Name":"Kæmi ný öxi hér ykist þjófum nú bæði víl og ádrepa","Project":2.79050021E8,"_ValidFrom":"2012-02-08T14:13:16.509Z","_ValidTo":"2012-02-08T14:13:20.022Z","_id":"53e110d3e4b03369a36c47c1"}
      ]
 }
